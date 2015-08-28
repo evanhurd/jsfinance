@@ -1,7 +1,8 @@
+require('daemon')();
+
 var Hapi = require('hapi');
 var router = require('./router');
 var db = require('./db');
-
 
 //require('modules/Main');
 
