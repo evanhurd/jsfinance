@@ -11,7 +11,7 @@ var sequelize = new Sequelize('jsfinance', 'root', 'stingray', {
     idle: 10000
   },
 
-  logging : true
+  logging : false
 });
 
 sequelize.DataTypes = Sequelize;
