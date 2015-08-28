@@ -1,0 +1,22 @@
+{
+  "name": "jsFinance",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "Finance",
+    "Money"
+  ],
+  "author": "Evan Hurd",
+  "license": "MIT",
+  "dependencies": {
+    "sequelize": "~3.1.1",
+    "mocha": "~2.2.5",
+    "hapi": "~8.6.0",
+    "mysql": "~2.7.0",
+    "lazy": "~1.0.11"
+  }
+}

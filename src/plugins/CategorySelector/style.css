@@ -1,0 +1,49 @@
+#CategorySelector li {
+    position: relative;
+    margin-left: -15px;
+    list-style: none;
+}
+
+#CategorySelector input {
+	opacity:0;
+	position: absolute;
+	left:0px;
+	z-index:1;
+}
+
+#CategorySelector i {
+	position: absolute;
+	left:0px;	
+}
+
+#CategorySelector label {
+	padding-left:15px;
+}
+
+#CategorySelector label:hover {
+	background-color:gray;
+}
+
+#CategorySelector input + ul {
+	display:none;
+}
+
+#CategorySelector input:checked + ul {
+	display:block;
+}
+
+#CategorySelector input:not(:checked) + ul + .icon-plus {
+	display:block;
+}
+
+#CategorySelector input:checked + ul + .icon-plus {
+	display:none;
+}
+
+#CategorySelector input:not(:checked) + ul + .icon-plus + .icon-minus {
+	display:none;
+}
+
+#CategorySelector input:checked + ul + .icon-plus + .icon-minus {
+	display:block;
+}

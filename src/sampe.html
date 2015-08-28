@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jsFinance</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	
+<style>
+.program-window{
+	position: absolute;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	margin:auto;
+	width:95%;
+	height:95%;	
+	border-style: solid;
+	border-color:#1a1a1a;
+	border-width:1px;
+	background-color:white;
+	border-radius: 2px;
+}
+
+.program-window-header{
+	height:30px;
+	background-color:#181a19;
+	z-index:3;
+	position:relative;
+}
+
+.program-window-toolbar{
+	height:60px;
+	background-color:#d04c3a;
+	box-shadow:0px 0px 1px 1px #b75545;
+	z-index:2;
+	position:relative;
+}
+
+.program-window-area{
+	z-index:1;
+	position:relative;
+	height: calc(100% - 90px);
+}
+
+.program-window-sidebar{
+	background-color:#252525;
+	height:100%;
+}
+
+.program-window-body {
+
+}
+
+.program-category-children{
+	list-style-type: none;	
+	padding:0px;
+}
+
+.program-category{
+	color:rgb(154, 154, 154);;
+	padding-top:20px;
+}
+
+.program-category-label:hover{
+	background-color: #333333;
+	cursor: pointer;
+}
+
+.program-category-child .program-category-children{
+	margin-left:20px;
+}
+
+.program-category-label {
+	padding-left:8px;
+	height:30px;
+	line-height:30px;
+}
+
+.program-category-label i {
+	padding-right:10px;
+}
+
+.program-category-balance{
+  float: right;
+  padding-right: 5px;
+  font-size: 8pt;
+  color: rgb(167, 121, 121);
+}
+
+</style>
+
+</head> 
+<body>
+
+	<div class="program-window">
+		<div class="program-window-header"></div>
+		<div class="program-window-toolbar"></div>
+		<div class="program-window-area">
+			<div class="program-window-sidebar col-md-3">
+				<div class="program-category">
+					<ul class="program-category-children">
+						<li class="program-category-child">
+							<div class="program-category-label">
+								<i class="glyphicon glyphicon-chevron-down"></i>
+								<span>Income</span>
+								<span class="program-category-balance">$300</span>
+							</div>
+							<ul class="program-category-children">
+								<li class="program-category-child">
+									<div class="program-category-label"><i class="glyphicon glyphicon-chevron-right"></i>Nelnet</div>
+								</li>
+							</ul>
+						</li>
+						<li class="program-category-child">
+							<div class="program-category-label"><i class="glyphicon glyphicon-chevron-right"></i>Food</div>
+						</li>
+						<li class="program-category-child">
+							<div class="program-category-label"><i class="glyphicon glyphicon-chevron-right"></i>Car</div>
+						</li>
+						<li class="program-category-child">
+							<div class="program-category-label"><i class="glyphicon glyphicon-chevron-right"></i>Investments</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="program-window-body col-md-9">
+				<div class="program-money">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Date</th>
+								<th>Description</th>
+								<th>Debit</th>
+								<th>Credit</th>
+								<th>Balance</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>01-01-2015</td>
+								<td>Test Credit</td>
+								<td>0.00</td>
+								<td>20.00</td>
+								<td>20.00</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>01-01-2015</td>
+								<td>Test Debit</td>
+								<td>20.00</td>
+								<td>0.00</td>
+								<td>0.00</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
