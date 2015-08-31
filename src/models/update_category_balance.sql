@@ -34,11 +34,15 @@ BEGIN
     and money.categoryId = catId
   order by money.date ASC, money.id ASC;
 
+  SET @balance:= 0;
+
+select @balance:=SUM(credit - debit) from money where categoryId = catId ;
+
   update categories
-  set balance = @runningBalance,
+  set balance = @balance,
       updatedAt = NOW()
   where id = catId
-    and balance <> @runningBalance;
+    and balance <> @balance;
     
 
 END$$
