@@ -734,7 +734,20 @@ QuickStep.on('element.object.style.*=ModelValue',function(type,thing,target, set
 });
 
 QuickStep.on('element.object.attribute.*=ModelValue',function(type,thing,target, setting){
-	bindKeys(thing, updateStyle, target, setting);
+	bindKeys(thing, updateAttribute, target, setting);
+	updateAttribute(thing, target, setting);
+	return false;
+});
+
+QuickStep.on('element.object.attr.*=ModelValue',function(type,thing,target, setting){
+	bindKeys(thing, updateAttribute, target, setting);
+	updateAttribute(thing, target, setting);
+	return false;
+});
+
+QuickStep.on('element.object.id=ModelValue',function(type,thing,target, setting){
+	bindKeys(thing, updateAttribute, target, "id");
+	updateAttribute(thing, target, "id");
 	return false;
 });
 
@@ -1135,25 +1148,10 @@ function subscribe(subpub, eventGroup, eventName, callBack) {
 
 function publish(subpub, eventName, eventObject) {
 	if(subpub.events[eventName] != undefined && subpub.events[eventName].length > 0) {
-		var publishEventObject = {
-			events : subpub.events[eventName],
-			index : 0,
-			count : subpub.events[eventName].length,
-			eventObject : eventObject
-		};
-
-		publishEventObject.runToEnd = function(PEO){
-			if(PEO.index < PEO.count){
-				PEO.events[PEO.index](PEO.eventObject);
-				PEO.index++;
-				setTimeout(PEO.runToEnd, 0);
-			};
-		}.bind(publishEventObject,publishEventObject);
-		publishEventObject.runToEnd();
-		/*var events = subpub.events[eventName];
+		var events = subpub.events[eventName];
 		for(var i = 0; i < events.length; i++) {
 			events[i](eventObject);
-		}*/
+		}
 	}
 }
 

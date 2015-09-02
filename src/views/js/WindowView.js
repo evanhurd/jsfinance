@@ -1,5 +1,6 @@
 var WindowViewModal = new QuickStep.Model('WindowView', [
 	  'title'
+	, 'id'
 	, 'active'
 	, 'width'
 	, 'height'
@@ -9,6 +10,7 @@ var WindowViewModal = new QuickStep.Model('WindowView', [
 function WindowView(){
 	var self = new WindowViewModal({
 		 title : "Untitled Window"
+		, id : 'WindowView'
 		, active : 0
 		, width: '95%'
 		, height: '95%'
@@ -26,7 +28,7 @@ function WindowView(){
 			width: value('width'),
 			height: value('height'),
 			zIndex: value('zIndex')
-		}},
+		}, attribute:{id : value('id')}},
 			div({class:'program-window-header'},
 				value('title'),
 				self.closeButton = button({type:'button', class:'program-window-close-button btn btn-danger btn-xs'}, "Close")

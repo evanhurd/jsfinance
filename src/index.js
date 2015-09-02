@@ -1,4 +1,4 @@
-require('daemon')();
+//require('daemon')();
 
 var Hapi = require('hapi');
 var router = require('./router');
@@ -27,6 +27,8 @@ require('./plugins/transfer');
 require('./plugins/CategorySelector');
 require('./plugins/Balance');
 require('./plugins/RefreshCategory');
+require('./plugins/Reports');
+require('./plugins/Reports/PieChart');
 
 
 
