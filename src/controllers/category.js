@@ -13,14 +13,16 @@ router.register('category', 'destroy', destroy);
 router.register('category', 'deleteCategory', deleteCategory);
 router.register('category', 'updateBalance', updateBalance);
 router.register('category', 'getBalance', getBalance);
-
+router.register('category', 'getStats', getStats);
+getStats
 module.exports = {
 	destroy : destroy,
 	create : create,
 	get : get,
 	getShortList : getShortList,
 	getBalance : getBalance,
-	getSmallestCredit : getSmallestCredit
+	getSmallestCredit : getSmallestCredit,
+	getStats : getStats
 };
 
 function deleteCategory(reply, data) {
@@ -134,6 +136,28 @@ function updateBalance(reply, data) {
 
 		function(next, response){
 			this.reply(true);
+		}
+	)();
+}
+
+function getStats(reply, data) {
+	data.reply =reply;
+	new Run(data,
+		function(next){
+			var sql = "CALL get_category_monthly_stats(:categoryId);";
+			db.query(sql,
+				{ replacements: { 
+					categoryId: this.id
+				}, type: db.QueryTypes.SELECT }
+			).then(next)
+			.error(function(err){
+				console.log(err);
+				this.reply(err);
+			}.bind(this))
+		},
+
+		function(next, response){
+			this.reply(response);
 		}
 	)();
 }

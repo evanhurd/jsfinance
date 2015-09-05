@@ -29,6 +29,7 @@ require('./plugins/Balance');
 require('./plugins/RefreshCategory');
 require('./plugins/Reports');
 require('./plugins/Reports/PieChart');
+require('./plugins/Reports/ChildrenDebits');
 
 
 

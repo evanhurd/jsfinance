@@ -7,8 +7,13 @@ Plugins.registerView('report_PieChart.js', function(reply, data){
 });
 
 Plugins.registerView('report_BalanceView.js', function(reply, data){
-	reply.file('plugins/Reports/PieChart/view.js');
+  reply.file('plugins/Reports/PieChart/view.js');
 });
+
+/*Plugins.registerView('chart.min.js', function(reply, data){
+  reply.file('plugins/Reports/PieChart/chart.min.js');
+});*/
+
 
 Plugins.registerView('report_BalanceView.css', function(reply, data){
 	reply.file('plugins/Reports/PieChart/style.css');

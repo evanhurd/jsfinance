@@ -5,7 +5,7 @@ function MoneyData(){
 
 MoneyData.prototype.get = function(data, callback){
 	var data = this.dataModel(data);
-	exec('money', 'get',data)
+	new exec('money', 'get',data)
 	.done(callback)
 	.fail(callback);
 }
@@ -16,21 +16,21 @@ MoneyData.prototype.update = function(data, callback){
 
 MoneyData.prototype.create = function(data, callback){
 	var data = this.dataModel(data);
-	exec('money', 'create',data)
+	new exec('money', 'create',data)
 	.done(callback)
 	.fail(callback);
 }
 
 MoneyData.prototype.delete = function(data, callback){
 	var data = this.dataModel(data);
-	exec('money', 'destroy',data)
+	new exec('money', 'destroy',data)
 	.done(callback)
 	.fail(callback);
 }
 
 MoneyData.prototype.getOrdered = function(data, callback){
 	var data = this.dataModel(data);
-	exec('money', 'getOrdered',data)
+	new exec('money', 'getOrdered',data)
 	.done(callback)
 	.fail(callback);
 }

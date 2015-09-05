@@ -5,35 +5,35 @@ function ActionData(){
 
 ActionData.prototype.get = function(data, callback){
 	var data = this.dataModel(data);
-	exec('action', 'get',data)
+	new exec('action', 'get',data)
 	.done(callback)
 	.fail(callback);
 }
 
 ActionData.prototype.update = function( data, callback){
 	var data = this.dataModel(data);
-	exec('action', 'update',data)
+	new exec('action', 'update',data)
 	.done(callback)
 	.fail(callback);
 }
 
 ActionData.prototype.create = function(data, callback){
 	var data = this.dataModel(data);
-	exec('action', 'create',data)
+	new exec('action', 'create',data)
 	.done(callback)
 	.fail(callback);
 }
 
 ActionData.prototype.delete = function(data, callback){
 	var data = this.dataModel(data);
-	exec('action', 'destroy',data)
+	new exec('action', 'destroy',data)
 	.done(callback)
 	.fail(callback);
 }
 
 ActionData.prototype.run = function(data, callback){
 	var data = this.dataModel(data);
-	exec('action', 'execute',data)
+	new exec('action', 'execute',data)
 	.done(callback)
 	.fail(callback);
 }
