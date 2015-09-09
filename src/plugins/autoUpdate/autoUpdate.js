@@ -5,7 +5,7 @@
 })(jsFinance);
 
 function AutoUpdate(){
-	this.socket = io('http://localhost:3001');
+	this.socket = io('http://'+window.location.hostname+':3001');
 
 	this.socket.on('MODEL_UPDATE', function(msg){
 		if(!msg.data){ return false;}
