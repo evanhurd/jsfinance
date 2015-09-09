@@ -1,5 +1,5 @@
 (function(jsf){
-	addNewJSFile('http://localhost:3001/socket.io/socket.io.js').onload = function(){
+	addNewJSFile('http://'+window.location.hostname+':3001/socket.io/socket.io.js').onload = function(){
 		window.autoUpdate = new AutoUpdate();
 	};
 })(jsFinance);
