@@ -14,7 +14,8 @@ router.register('category', 'deleteCategory', deleteCategory);
 router.register('category', 'updateBalance', updateBalance);
 router.register('category', 'getBalance', getBalance);
 router.register('category', 'getStats', getStats);
-getStats
+router.register('category', 'updateAll', updateAll);
+
 module.exports = {
 	destroy : destroy,
 	create : create,
@@ -22,7 +23,8 @@ module.exports = {
 	getShortList : getShortList,
 	getBalance : getBalance,
 	getSmallestCredit : getSmallestCredit,
-	getStats : getStats
+	getStats : getStats,
+	updateAll : updateAll
 };
 
 function deleteCategory(reply, data) {
@@ -126,7 +128,7 @@ function updateBalance(reply, data) {
 			db.query(sql,
 				{ replacements: { 
 					categoryId: this.id
-				}, type: db.QueryTypes.SELECT }
+				} }
 			).then(next)
 			.error(function(err){
 				console.log(err);
@@ -205,4 +207,87 @@ function getSmallestCredit(reply, data) {
 			this.reply(response[0]);
 		}
 	)();
+}
+
+function updateAll(reply, data) {
+	data.reply =reply;
+	new Run(data,
+		function(next){
+			var sql = " select categories.id";
+				sql+= " 	from categories";
+				sql+= " left outer join money on money.updatedAt > categories.updatedAt";
+				sql+= "   and categories.id = money.categoryId";
+				sql+= " left outer join transfers on transfers.categoryId = categories.id";
+				sql+= "   OR transfers.from_categoryId = categories.id";
+				sql+= " where ";
+				sql+= " 	money.id IS NOT NULL OR transfers.id IS NOT NULL";
+
+			db.query(sql, {type: db.QueryTypes.SELECT})
+			.then(next)
+			.error(function(err){
+				console.log(err);
+				this.reply(err);
+			}.bind(this))
+		},
+
+		function(next, response){
+			this.categories = response;
+			this.index=0;
+			this.nextLoop = next;
+			this.nextLoop();
+		},
+
+		function(next){
+			if(this.index < this.categories.length){
+				updateBalance(this.nextLoop, {id:this.categories[this.index].id});
+				this.index++;
+			}else{
+				next();
+			}
+		},
+
+		function(){
+			this.reply(true);
+		}
+	)();
+}
+
+function getUpdatedCategories(reply, data){
+	data.reply =reply;
+	new Run(data,
+		function(next){
+			var sql = " select *";
+				sql+= " 	from categories";
+				sql+= " where updatedAt > :fromDateTime";
+
+			db.query(sql, {model : Category, replacements: { 
+					fromDateTime: this.fromDateTime
+				}, type: db.QueryTypes.SELECT})
+			.then(next)
+			.error(function(err){
+				console.log(err);
+				this.reply(err);
+			}.bind(this))
+		},
+
+		function(next, response){
+			this.categories = response;
+			this.index=0;
+			this.nextLoop = next;
+			this.nextLoop();
+		},
+
+		function(next){
+			if(this.index < this.categories.length){
+				updateBalance(this.nextLoop, {id:this.categories[this.index].id});
+				this.index++;
+			}else{
+				next();
+			}
+		},
+
+		function(){
+			this.reply(true);
+		}
+	)();	
 }

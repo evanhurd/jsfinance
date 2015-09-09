@@ -41,8 +41,7 @@ select @balance:=SUM(credit - debit) from money where categoryId = catId ;
   update categories
   set balance = @balance,
       updatedAt = NOW()
-  where id = catId
-    and balance <> @balance;
+  where id = catId;
     
 
 END$$

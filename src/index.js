@@ -4,6 +4,8 @@ var Hapi = require('hapi');
 var router = require('./router');
 var db = require('./db');
 
+
+
 //require('modules/Main');
 
 
@@ -30,6 +32,7 @@ require('./plugins/RefreshCategory');
 require('./plugins/Reports');
 require('./plugins/Reports/PieChart');
 require('./plugins/Reports/ChildrenDebits');
+require('./plugins/autoUpdate');
 
 
 
@@ -95,4 +98,3 @@ server.route({
       }
     }
 });
-

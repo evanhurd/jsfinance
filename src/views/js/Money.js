@@ -1,3 +1,6 @@
+var globalMoney = {};
+
+
 function MoneyController(category){
 	this.isInit = false;
 	this.category = category;
@@ -8,6 +11,9 @@ function MoneyController(category){
 			this.hide();
 		}
 	}.bind(this, category));
+	this.pageIndex = 0;
+	this.loadedIndexs = {};
+	this.indexHasRecord = true;
 	return this;
 }
 
@@ -17,7 +23,9 @@ MoneyController.prototype.init = function(){
 	this.moneyData = new MoneyData();
 	this.parent.appendChild(this.moneyView.element);
 	this.isInit = true;
+	globalMoney[this.category.id] = this;
 	this.loadMonies();
+	this.moneyView.element.onscroll = this.onScrollEvent.bind(this);
 }
 
 MoneyController.prototype.show = function(){
@@ -29,10 +37,20 @@ MoneyController.prototype.hide = function(){
 	if(this.isInit)this.moneyView.element.style.display = 'none';
 }
 
+MoneyController.prototype.onScrollEvent = function(){
+	var scrollHeight = this.moneyView.element.scrollHeight - 100 - this.moneyView.element.offsetHeight;
+	if(this.moneyView.element.scrollTop >= scrollHeight && this.loadedIndexs[this.pageIndex]){
+		this.pageIndex++;
+		this.loadMonies();
+	}
+}
+
 MoneyController.prototype.loadMonies = function(){
 	new Run(this,
 		function(next){
-			this.moneyData.getOrdered({categoryId: this.category.id}, next)
+			var fromIndex = this.pageIndex*100;
+			var toIndex =  99;
+			this.moneyData.getOrdered({categoryId: this.category.id, fromIndex:fromIndex, toIndex:toIndex}, next)
 		}, 
 		function(next, monies){
 			this.populateMonies(monies);
@@ -51,6 +69,8 @@ MoneyController.prototype.populateMonies = function(monies){
 			this.moneyView.Monies.add(new Money(loopData.monies[loopData.index]));	
 			loopData.index++;
 			setTimeout(loopData.loopFunc, 0);
+		}else{
+			this.loadedIndexs[this.pageIndex] = true;
 		}
 	}.bind(this,loopData);
 	loopData.loopFunc();

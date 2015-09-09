@@ -44,5 +44,7 @@ MoneyData.prototype.dataModel = function(data){
 		, debit : data.debit || undefined
 		, credit : data.credit || undefined
 		, balance : data.balance || undefined
+		, fromIndex : data.fromIndex || undefined
+		, toIndex : data.toIndex || undefined
 	};
 } 

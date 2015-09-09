@@ -167,7 +167,7 @@ CategoryController.prototype.reload = function(category){
 		},
 
 		function(next){
-			this.category.MoneyController.clearAllMonies();
+			//this.category.MoneyController.clearAllMonies();
 			next();
 		},
 
@@ -200,7 +200,7 @@ CategoryController.prototype.reload = function(category){
 		},
 
 		function(){
-			this.category.MoneyController.reload();
+			//this.category.MoneyController.reload();
 		}
 
 	)();

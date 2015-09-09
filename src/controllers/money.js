@@ -54,7 +54,11 @@ function get(reply, data) {
 }
 
 function getOrdered(reply, data) {
-	Money.findAll({ where : data, order: '`date` DESC, `id` DESC' })
+	var offset = data.fromIndex || 0;
+	var limit = data.toIndex || 0;
+	delete data.toIndex;
+	delete data.fromIndex;
+	Money.findAll({ where : data, offset: offset, limit: limit, order: '`date` DESC, `id` DESC' })
 	.then(function(rows){
 		reply(rows);
 	})
