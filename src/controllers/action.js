@@ -104,7 +104,7 @@ function execute(reply, data) {
 
 	function(next, action){
 		if(action.filter == 'BALANCE'){
-			new BalanceCategory(reply, action.toCategoryId, action.categoryId, action.id );
+			new BalanceCategory(reply,action.categoryId, action.toCategoryId, action.id );
 		}else{
 			next(action);	
 		}
@@ -154,7 +154,6 @@ function execute(reply, data) {
 
 	function(next, data, newMoney, transfer){
 		data.index++;
-		console.log(data.index, data.count);
 		if(data.index < data.count){
 			data.runNext();
 		}else{
@@ -175,28 +174,29 @@ function RunCategoryActions(reply, data){
 			reply : reply,
 			category : data.categoryId
 		},
-		function(){
-			this.loopNext = next;
-			getOrdered({categoryId : this.category, active: 1})
-			.then(next)
-			.catch(function(err){
-				console.log(err);
-				this.reply(false);
-			});
+		function (next){
+			getOrdered(next, {categoryId : this.category, active: 1})
 		},
 
 		function (next, actions){
-			this.actions = actions;
-			var action = false;
-			if( (action == this.actions.shift())) {
-				execute(this.loopNext,action.id);
-			}else{
+			if( arguments[1] && arguments[1].length ){
+				this.actions = actions;
+				this.loopNext = next;
 				next();
-			}
+			}else{
+				this.reply(false);
+			}	
 		},
 
-		function (){
-			reply(true);
+		function (next, actions){
+			
+			var action = this.actions.shift();
+			if(action) {
+				console.log(action.id);
+				execute(this.loopNext,{id:action.id});
+			}else{
+				this.reply(true);
+			}
 		}
 	)();
 }

@@ -7,6 +7,7 @@ function ActionController(category){
 	this.view.$newActionButton.onClick(this.startNewActionProcess.bind(this));
 	this.view.$editActionButton.onClick(this.startEditActionProcess.bind(this));
 	this.view.$runActionButton.onClick(this.startRunActionProcess.bind(this));
+	this.view.$runAllButton.onClick(this.startRunAllProcess.bind(this));
 	this.init();
 	return this;
 } 
@@ -120,6 +121,22 @@ ActionController.prototype.startRunActionProcess = function(){
 	new Run(this,
 		function(next){
 			this.actionData.run({id:this.actionToRun.id}, next)
+		},
+
+		function(next, reply){
+			console.log(reply);
+		}
+
+	)();
+}
+
+ActionController.prototype.startRunAllProcess = function(){
+	var categoryId = jsFinance.getSelectedCateogry().id;
+
+	this.actionToRun = this.view.selectedAction;
+	new Run(this,
+		function(next){
+			this.actionData.runAll({categoryId:categoryId}, next)
 		},
 
 		function(next, reply){

@@ -1,4 +1,4 @@
-require('daemon')();
+//require('daemon')();
 
 var Hapi = require('hapi');
 var router = require('./router');

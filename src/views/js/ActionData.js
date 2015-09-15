@@ -38,6 +38,13 @@ ActionData.prototype.run = function(data, callback){
 	.fail(callback);
 }
 
+ActionData.prototype.runAll = function(data, callback){
+	var data = this.dataModel(data);
+	new exec('action', 'RunCategoryActions',data)
+	.done(callback)
+	.fail(callback);
+}
+
 
 ActionData.prototype.dataModel = function(data){
 	return {
