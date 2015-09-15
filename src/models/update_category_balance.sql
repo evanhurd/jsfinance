@@ -8,9 +8,9 @@ BEGIN
   SET @moneyDate:= '1993-02-23 02:35:04';
   -- Get the balance, date and id of first money just before the modified money.
   select
-    @moneyDate:=money.createdAt,
-    @runningBalance:=money.balance,
-    @moneyId:=money.id
+    money.createdAt,
+    money.balance,
+    money.id
   from money
   where money.date < (
     select DATE_SUB(min(money.date), INTERVAL 1 DAY) from money
@@ -30,8 +30,9 @@ BEGIN
       set balance = (@runningBalance := @runningBalance + (money.credit - money.debit)),
           updatedAt = NOW()
   where
-    (money.createdAt >= @moneyDate or @moneyId = 0)
+    (money.date >= @moneyDate or @moneyId = 0)
     and money.categoryId = catId
+    and money.id != @moneyId
   order by money.date ASC, money.id ASC;
 
   SET @balance:= 0;
