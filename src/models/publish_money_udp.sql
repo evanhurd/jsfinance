@@ -27,9 +27,14 @@ CREATE TRIGGER jsfinance.publish_udp_check AFTER UPDATE ON money
 			set tmpCMD = CONCAT(tmpCMD, ',\\"balance\\":',NEW.balance);
 		END	IF;
 
-		set tmpCMD = CONCAT('/opt/jsfinance/src/udp_push.sh "{',tmpCMD,'}"');
-  		set tmpCMD = sys_exec(tmpCMD);
 
+		IF NEW.description != OLD.description OR 
+			NEW.debit != OLD.debit OR 
+			NEW.credit != OLD.credit OR 
+			NEW.balance != OLD.balance THEN 
+			set tmpCMD = CONCAT('/opt/jsfinance/src/udp_push.sh "{',tmpCMD,'}"');
+	  		set tmpCMD = sys_exec(tmpCMD);
+	  	END IF;
 	END;
 ///
 DELIMITER ;

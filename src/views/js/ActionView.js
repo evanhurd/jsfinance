@@ -45,7 +45,9 @@ function ActionView(){
 	this.$newActionButton = this.window.addSidebarButton('plus-sign');
 	this.$editActionButton = this.window.addButton('pencil');
 	this.$runActionButton = this.window.addButton('play-circle');
+	this.$runAllButton = this.window.addButton('refresh');
 	this.$newActionButton.enable();
+	this.$runAllButton.enable();
 	this.$editActionButton.disable();
 	this.$runActionButton.disable();
 

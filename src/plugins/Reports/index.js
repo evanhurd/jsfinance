@@ -4,7 +4,7 @@ Plugins.registerView('plugin_Reports.js', function(reply, data){
 	reply.file('plugins/Reports/Reports.js');
 });
 
-Plugins.registerView('plugin_BalanceView.js', function(reply, data){
+Plugins.registerView('plugin_ReportsView.js', function(reply, data){
 	reply.file('plugins/Reports/view.js');
 });
 
