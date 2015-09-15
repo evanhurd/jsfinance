@@ -6,10 +6,6 @@ Plugins.registerView('report_PieChart.js', function(reply, data){
 	reply.file('plugins/Reports/PieChart/PieChart.js');
 });
 
-Plugins.registerView('report_BalanceView.js', function(reply, data){
-  reply.file('plugins/Reports/PieChart/view.js');
-});
-
 /*Plugins.registerView('chart.min.js', function(reply, data){
   reply.file('plugins/Reports/PieChart/chart.min.js');
 });*/

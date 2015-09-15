@@ -18,7 +18,9 @@ function ReportsView(){
 function ReportsListView(reportsView){
 	var Q = QuickStep;
 
-	var element = Q.ul();
+	var element = Q.ul({class:'plugin_reports'});
+	console.log(reportsView);
+	reportsView.reports = {};
 	
 	element.add = function(reportsView, element, name, func){
 	
@@ -26,6 +28,7 @@ function ReportsListView(reportsView){
 		element.appendChild(li);
 		li.onclick = func;
 		li.view = null;
+		reportsView.reports[name] = false;
 	
 		li.onclick = function(reportsView, element, name, func){
 
@@ -33,13 +36,13 @@ function ReportsListView(reportsView){
 				reportsView.activeReport.hide();
 			}
 			
-			if(!element.reportsReportView){
-				element.reportsReportView = ReportsReportView(new func());
-				reportsView.window.body.appendChild(element.reportsReportView);
+			if(!reportsView.reports[name]){
+				reportsView.reports[name]= ReportsReportView(name, new func());
+				reportsView.window.body.appendChild(reportsView.reports[name]);
 			}
 
-			element.reportsReportView.show();
-			reportsView.activeReport = element.reportsReportView;
+			reportsView.reports[name].show();
+			reportsView.activeReport = reportsView.reports[name];
 
 		}.bind(reportsView,reportsView, element, name, func);
 		return li;
@@ -49,9 +52,12 @@ function ReportsListView(reportsView){
 	return element;
 }
 
-function ReportsReportView(reportElement){
+function ReportsReportView(name,reportElement){
 	var Q = QuickStep;
-	var element = Q.div({style:{display:'none'}},reportElement);
+	var element = Q.div({style:{display:'none'}},
+		Q.h1(name),	
+		reportElement
+	);
 	element.hide = function(){
 		this.style.display = 'none';
 	};

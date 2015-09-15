@@ -16,25 +16,27 @@ function ActionView(){
 	with(QuickStep){
 		this.window = new WindowView(
 			"",
-			table({class:'program-action-table table table-hover'},
-				thead(
-					tr(
-						  th("Active")
-						, th("Order")
-						, th("Name")
-						, th("Filter")
-						, th("Category")
-						, th("Amount")
+			div({class:'action-view'},
+				table({class:'program-action-table table table-hover'},
+					thead(
+						tr(
+							  th("Active")
+							, th("Order")
+							, th("Name")
+							, th("Filter")
+							, th("Category")
+							, th("Amount")
+						)
+					),
+					tbody(
+						CollectionElement(this.actions, function(actionView, actionItem, value){
+							var tr = ActionViewItem(actionItem, value);
+							tr.onclick = function(actionItem){
+								this.selectAction(actionItem);
+							}.bind(actionView,actionItem);
+							return tr;
+						}.bind(this, this))
 					)
-				),
-				tbody(
-					CollectionElement(this.actions, function(actionView, actionItem, value){
-						var tr = ActionViewItem(actionItem, value);
-						tr.onclick = function(actionItem){
-							this.selectAction(actionItem);
-						}.bind(actionView,actionItem);
-						return tr;
-					}.bind(this, this))
 				)
 			)
 		);
