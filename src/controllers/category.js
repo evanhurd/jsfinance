@@ -15,7 +15,8 @@ router.register('category', 'updateBalance', updateBalance);
 router.register('category', 'getBalance', getBalance);
 router.register('category', 'getStats', getStats);
 router.register('category', 'updateAll', updateAll);
-
+router.register('category', 'getLatestCredit', getLatestCredit);
+getLatestCredit
 module.exports = {
 	destroy : destroy,
 	create : create,
@@ -24,7 +25,9 @@ module.exports = {
 	getBalance : getBalance,
 	getSmallestCredit : getSmallestCredit,
 	getStats : getStats,
-	updateAll : updateAll
+	updateAll : updateAll,
+	getLatestCredit : getLatestCredit
+
 };
 
 function deleteCategory(reply, data) {
@@ -167,6 +170,7 @@ function getStats(reply, data) {
 function getBalance(reply, data) {
 	data.reply =reply;
 	new Run(data,
+
 		function(next){
 			var sql = "select SUM(credit - debit) as balance from money where categoryId = :id ;";
 			db.query(sql,
@@ -181,8 +185,7 @@ function getBalance(reply, data) {
 		},
 
 		function(next, response){
-			console.log(response);
-			this.reply(response.length > 0 ? response[0].balance : null);
+			this.reply(response.length > 0 ? response[0].balance : 0);
 		}
 	)();
 }
@@ -192,6 +195,28 @@ function getSmallestCredit(reply, data) {
 	new Run(data,
 		function(next){
 			var sql = "select MIN(credit - debit), money.* from money where categoryId = :id and credit > 0;";
+			db.query(sql,
+				{ model : Money, replacements: { 
+					id: this.id
+				}, type: db.QueryTypes.SELECT }
+			).then(next)
+			.error(function(err){
+				console.log(err);
+				reply(err);
+			});
+		},
+
+		function(next, response){
+			this.reply(response[0]);
+		}
+	)();
+}
+
+function getLatestCredit(reply, data) {
+	data.reply =reply;
+	new Run(data,
+		function(next){
+			var sql = "select money.* from money where categoryId = :id and credit > 0 and date = (Select max(date) from money where categoryId = :id and credit > 0);";
 			db.query(sql,
 				{ model : Money, replacements: { 
 					id: this.id

@@ -30,7 +30,6 @@ function MoneyTransfer(options, callBack){
 		description = options.description || '',
 		action = options.action || 0;
 
-	
 	db.transaction({isolationLevel: 'READ COMMITTED' })
 	.then(function(t){
 		var sql = " select money.*, transactions.debit as ndebit, transactions.credit as ncredit ";
@@ -76,6 +75,7 @@ function MoneyTransfer(options, callBack){
 
 
 			if(amount <= 0 || amount >= money[type]) {
+
 				return moveMoney(t, money, categoryId, complete.bind(money, money));
 			}else{
 				return movePartial(t, money, categoryId,type, amount, description, complete.bind(money, money));
@@ -83,6 +83,7 @@ function MoneyTransfer(options, callBack){
 
 
 			function complete(money1, money2){
+				//console.log(money1.id, money2.id);
 				if(isError(money2)){
 					t.rollback();
 					return callBack(money2);
@@ -126,7 +127,7 @@ function MoneyTransfer(options, callBack){
 function moveMoney(t,money, toCategory, returnFunc) {
 	return getCategoryOrFail(toCategory, function(category){
 		if(isError(category)){
-			returnFunc(category);
+			return returnFunc(category);
 		}
 		money.categoryId = category.id;
 		money.save({transaction: t})

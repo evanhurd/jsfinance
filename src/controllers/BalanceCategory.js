@@ -28,8 +28,6 @@ function BalanceCategory(reply, fromCategory, toCategory, actionId){
 			actionId : actionId
 		},
 		function (next){
-			console.log('HA!');
-
 			Category.getBalance(next, {id:this.toCategory});
 		},
 
@@ -40,7 +38,6 @@ function BalanceCategory(reply, fromCategory, toCategory, actionId){
 		},
 
 		function (next){
-			console.log('HA!');
 			if(this.balance < 0){
 				next();
 			}else{
@@ -49,12 +46,13 @@ function BalanceCategory(reply, fromCategory, toCategory, actionId){
 		},
 
 		function (next){
-			console.log('here');
-			Category.getSmallestCredit(next,{id:this.fromCategory});
+			Category.getLatestCredit(function(creditMoney){
+				next(creditMoney);
+
+			},{id:this.fromCategory});
 		},
 
 		function (next, creditMoney){
-
 			if((this.balance * -1) <= creditMoney.credit){
 				var amount = (this.balance * -1);
 			}else{
@@ -71,7 +69,9 @@ function BalanceCategory(reply, fromCategory, toCategory, actionId){
 
 		function(next, newMoney, transfer) {
 			this.balance+=newMoney.credit;
-			this.loopNext();
+			setTimeout(function(){
+				this.loopNext();
+			}.bind(this), 100);
 		}
 
 	)();
